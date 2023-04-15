@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.model.User;
 public class IdAlreadyExistsException extends RuntimeException {
     private String message;
     //w
+    
     public IdAlreadyExistsException(Object o) {
         message = "";
         if (o instanceof User user) {
