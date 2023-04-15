@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class InvalidLoginException extends RuntimeException {
-    final private String message;
+    private final String message;
 
     public InvalidLoginException() {
         this.message = "Логин не может быть пустым и содержать пробелы";

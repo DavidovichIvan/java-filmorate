@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class InvalidBirthdayException extends RuntimeException {
-    final private String message;
+    private final String message;
 
     public InvalidBirthdayException(LocalDate date) {
         this.message = "Дата рождения не может быть в будущем -" + date;

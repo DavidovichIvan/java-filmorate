@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class InvalidEmailException extends RuntimeException {
 
-    final private String message;
+    private final String message;
 
     public InvalidEmailException(String email) {
 

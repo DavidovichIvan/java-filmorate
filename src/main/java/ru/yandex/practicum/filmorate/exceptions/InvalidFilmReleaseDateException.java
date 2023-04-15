@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class InvalidFilmReleaseDateException extends RuntimeException {
-    final private String message;
+    private final String message;
 
     public InvalidFilmReleaseDateException() {
         this.message = "Дата релиза должна быть не ранее 28 декабря 1985 года.";
