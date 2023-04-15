@@ -10,8 +10,6 @@ import ru.yandex.practicum.filmorate.model.User;
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class IdAlreadyExistsException extends RuntimeException {
     private String message;
-    //w
-    
     public IdAlreadyExistsException(Object o) {
         message = "";
         if (o instanceof User user) {
