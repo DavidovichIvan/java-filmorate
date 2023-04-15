@@ -18,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FilmControllerTest {
 
     FilmController fController = new FilmController();
-    Film testFilm = new Film("Terminator"
-            , "A human-like cyborg came from the future to nowadays to kill Sarah Connor"
-            , LocalDate.of(2020, 12, 12)
-            , "120");
+    Film testFilm = new Film("Terminator",
+            "A human-like cyborg came from the future to nowadays to kill Sarah Connor",
+            LocalDate.of(2020, 12, 12),
+            "120");
     int testId = testFilm.getId();
 
     @Test
@@ -43,47 +43,47 @@ public class FilmControllerTest {
 
     @Test
     public void descriptionShouldNotExceedMaxLength() {
-        int MAX_LENGTH_TEST = fController.getDescriptionMaxLength();
+        int maxLengthTest = fController.getDescriptionMaxLength();
         //left boundary
-        byte[] array = new byte[MAX_LENGTH_TEST - 1];
+        byte[] array = new byte[maxLengthTest - 1];
         String veryLongDescription = new String(array, Charset.forName("UTF-8"));
-        assertTrue(veryLongDescription.length() == MAX_LENGTH_TEST - 1);
+        assertTrue(veryLongDescription.length() == maxLengthTest - 1);
 
         testFilm.setDescription(veryLongDescription);
         fController.addFilm(testFilm);
 
         assertEquals(fController.getFilmsList()
                         .get(testId)
-                        .getDescription().length()
-                , MAX_LENGTH_TEST - 1);
+                        .getDescription().length(),
+                maxLengthTest - 1);
 
         //right boundary
         fController.getFilmsList().clear();
-        array = new byte[MAX_LENGTH_TEST];
+        array = new byte[maxLengthTest];
         veryLongDescription = new String(array, Charset.forName("UTF-8"));
-        assertTrue(veryLongDescription.length() == MAX_LENGTH_TEST);
+        assertTrue(veryLongDescription.length() == maxLengthTest);
 
         testFilm.setDescription(veryLongDescription);
         fController.addFilm(testFilm);
 
         assertEquals(fController.getFilmsList()
                         .get(testId)
-                        .getDescription().length()
-                , MAX_LENGTH_TEST);
+                        .getDescription().length(),
+                maxLengthTest);
 
         //far beyond boundary
         fController.getFilmsList().clear();
-        array = new byte[MAX_LENGTH_TEST * 2];
+        array = new byte[maxLengthTest * 2];
         veryLongDescription = new String(array, Charset.forName("UTF-8"));
-        assertTrue(veryLongDescription.length() == MAX_LENGTH_TEST * 2);
+        assertTrue(veryLongDescription.length() == maxLengthTest * 2);
 
         testFilm.setDescription(veryLongDescription);
         fController.addFilm(testFilm);
 
         assertEquals(fController.getFilmsList()
                         .get(testId)
-                        .getDescription().length()
-                , MAX_LENGTH_TEST);
+                        .getDescription().length(),
+                maxLengthTest);
     }
 
 
