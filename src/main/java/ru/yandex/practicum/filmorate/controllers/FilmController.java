@@ -18,10 +18,10 @@ import java.util.Map;
 public class FilmController {
 
     @Getter
-    LocalDate FIRST_FILM_RELEASE_DATE = LocalDate.of(1985, 12, 28);
+    LocalDate earliestReleaseDate = LocalDate.of(1985, 12, 28);
 
     @Getter
-    private final int FILM_DESCRIPTION_MAX_LENGTH = 200;
+    private final int descriptionMaxLength = 200;
     @Getter
     private Map<Integer, Film> filmsList = new HashMap<>(); //id = key
 
@@ -65,9 +65,9 @@ public class FilmController {
             log.info("Не введено название фильма {} ", film.getName());
             throw new InvalidFilmNameException();
         }
-        if (film.getDescription().length() > FILM_DESCRIPTION_MAX_LENGTH) {
-            String correctedDescription = film.getDescription().substring(0, FILM_DESCRIPTION_MAX_LENGTH);
-            log.info("Описание фильма сокращено до {} символов", FILM_DESCRIPTION_MAX_LENGTH);
+        if (film.getDescription().length() > descriptionMaxLength) {
+            String correctedDescription = film.getDescription().substring(0, descriptionMaxLength);
+            log.info("Описание фильма сокращено до {} символов", descriptionMaxLength);
             film.setDescription(correctedDescription);
         }
 
@@ -82,9 +82,9 @@ public class FilmController {
             throw new InvalidFilmDurationException();
         }
 
-        if (film.getReleaseDate().isBefore(FIRST_FILM_RELEASE_DATE)
+        if (film.getReleaseDate().isBefore(earliestReleaseDate)
                 || film.getReleaseDate().isAfter(LocalDate.now())) {
-            log.info(String.valueOf(FIRST_FILM_RELEASE_DATE));
+            log.info(String.valueOf(earliestReleaseDate));
             log.info("Некорректно введена дата релиза фильма {} ", film.getReleaseDate());
             throw new InvalidFilmReleaseDateException();
         }

@@ -43,7 +43,7 @@ public class FilmControllerTest {
 
     @Test
     public void descriptionShouldNotExceedMaxLength() {
-        int MAX_LENGTH_TEST = fController.getFILM_DESCRIPTION_MAX_LENGTH();
+        int MAX_LENGTH_TEST = fController.getDescriptionMaxLength();
         //left boundary
         byte[] array = new byte[MAX_LENGTH_TEST - 1];
         String veryLongDescription = new String(array, Charset.forName("UTF-8"));
@@ -90,7 +90,7 @@ public class FilmControllerTest {
     @org.junit.Test(expected = InvalidFilmReleaseDateException.class)   //left boundary test
     public void releaseDateIsNotEarlierThanTest() {
 
-        LocalDate theMostEarlyDate = fController.getFIRST_FILM_RELEASE_DATE();
+        LocalDate theMostEarlyDate = fController.getEarliestReleaseDate();
 
         //left boundary test
         LocalDate testDate = theMostEarlyDate.minusDays(1);
@@ -102,7 +102,7 @@ public class FilmControllerTest {
     @Test    //right boundary test
     public void properReleaseDateTest() {
 
-        LocalDate theMostEarlyDate = fController.getFIRST_FILM_RELEASE_DATE();
+        LocalDate theMostEarlyDate = fController.getEarliestReleaseDate();
 
         //left boundary test
         LocalDate testDate = theMostEarlyDate;
