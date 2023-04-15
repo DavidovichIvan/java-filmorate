@@ -18,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserControllerTest {
 
     UserController uController = new UserController();
-    User testUser = new User("Dogman@ttt.tt"
-            , "BigDog"
-            , "Dogman"
-            , LocalDate.of(2020, 12, 12));
+    User testUser = new User("Dogman@ttt.tt",
+             "BigDog",
+             "Dogman",
+             LocalDate.of(2020, 12, 12));
 
     int testId = testUser.getId();
 
@@ -51,8 +51,8 @@ public class UserControllerTest {
         assertTrue(!testUser.getLogin().isEmpty());
 
         uController.addUser(testUser);
-        assertEquals(uController.getAllUsers().get(0).getName()
-                , uController.getAllUsers().get(0).getLogin());
+        assertEquals(uController.getAllUsers().get(0).getName(),
+                 uController.getAllUsers().get(0).getLogin());
     }
 
     @org.junit.Test(expected = InvalidBirthdayException.class)
