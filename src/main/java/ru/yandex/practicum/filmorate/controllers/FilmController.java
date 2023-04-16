@@ -69,11 +69,17 @@ public class FilmController {
             log.info("Не введено название фильма {} ", film.getName());
             throw new InvalidFilmNameException();
         }
+
         if (film.getDescription().length() > descriptionMaxLength) {
-            String correctedDescription = film.getDescription().substring(0, descriptionMaxLength);
-            log.info("Описание фильма сокращено до {} символов", descriptionMaxLength);
-            film.setDescription(correctedDescription);
+            log.info("Описание фильма превышает предельную длину");
+            throw new InvalidDescriptionException(descriptionMaxLength);
         }
+
+        //  if (film.getDescription().length() > descriptionMaxLength) {
+        //      String correctedDescription = film.getDescription().substring(0, descriptionMaxLength);
+        //        log.info("Описание фильма сокращено до {} символов", descriptionMaxLength);
+        //       film.setDescription(correctedDescription);
+        //    }
 
         try {
             filmDuration = Integer.parseInt(film.getDuration());

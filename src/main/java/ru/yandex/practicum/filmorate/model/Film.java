@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 public class Film {
-    private static int filmIdCounter = 0;
+    private static int filmIdCounter = 1;
     @Getter
     private final int id;
     @Getter
