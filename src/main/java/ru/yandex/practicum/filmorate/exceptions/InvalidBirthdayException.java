@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.LocalDate;
 
 @Getter
-@ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidBirthdayException extends RuntimeException {
     private final String message;
 
