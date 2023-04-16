@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -26,6 +27,7 @@ public class FilmController {
     private Map<Integer, Film> filmsList = new HashMap<>(); //id = key
 
     @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Film addFilm(@RequestBody Film film) {
         if (filmsList.containsKey(film.getId())) {
             log.info("Запрос на добавление; фильм с id: {} уже существует", film.getId());
@@ -39,6 +41,7 @@ public class FilmController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Film updateFilm(@RequestBody Film film) {
         if (!filmsList.containsKey(film.getId())) {
             log.info("Запрос на обновление; не существует фильма с id: {} ", film.getId());
@@ -52,6 +55,7 @@ public class FilmController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public List<Film> getAllFilms() {
         log.info("Запрос на все фильмы, всего фильмов в картотеке: {}", filmsList.size());
         List<Film> films = new ArrayList<>(filmsList.values());

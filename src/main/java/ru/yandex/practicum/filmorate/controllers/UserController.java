@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.User;
@@ -20,6 +21,7 @@ public class UserController {
     Map<Integer, User> usersList = new HashMap<>();
 
     @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public User addUser(@Valid @RequestBody User user) {
 
         if (usersList.containsKey(user.getId())) {
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     User updateUser(@RequestBody User user) {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
@@ -47,6 +50,7 @@ public class UserController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public List<User> getAllUsers() {
         log.info("Текущее количество пользователей: {}", usersList.size());
         List<User> users = new ArrayList<>(usersList.values());
