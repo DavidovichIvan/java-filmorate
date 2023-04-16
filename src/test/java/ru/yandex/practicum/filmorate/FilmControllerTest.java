@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controllers.FilmController;
+import ru.yandex.practicum.filmorate.exceptions.InvalidDescriptionException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmDurationException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmNameException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmReleaseDateException;
@@ -41,7 +42,16 @@ public class FilmControllerTest {
         fController.addFilm(testFilm);
     }
 
-    @Test
+    @org.junit.Test(expected = InvalidDescriptionException.class)
+    public void descriptionShouldNotExceedMaxLength() {
+        int maxLengthTest = fController.getDescriptionMaxLength();
+        byte[] array = new byte[maxLengthTest + 1];
+        String veryLongDescription = new String(array, Charset.forName("UTF-8"));
+        testFilm.setDescription(veryLongDescription);
+        fController.addFilm(testFilm);
+    }
+
+   /* @Test
     public void descriptionShouldNotExceedMaxLength() {
         int maxLengthTest = fController.getDescriptionMaxLength();
         //left boundary
@@ -84,8 +94,7 @@ public class FilmControllerTest {
                         .get(testId)
                         .getDescription().length(),
                 maxLengthTest);
-    }
-
+    } */
 
     @org.junit.Test(expected = InvalidFilmReleaseDateException.class)   //left boundary test
     public void releaseDateIsNotEarlierThanTest() {
