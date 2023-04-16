@@ -21,7 +21,7 @@ public class UserController {
     Map<Integer, User> usersList = new HashMap<>();
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public User addUser(@Valid @RequestBody User user) {
 
         if (usersList.containsKey(user.getId())) {
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     User updateUser(@RequestBody User user) {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
         log.info("Текущее количество пользователей: {}", usersList.size());
         List<User> users = new ArrayList<>(usersList.values());
