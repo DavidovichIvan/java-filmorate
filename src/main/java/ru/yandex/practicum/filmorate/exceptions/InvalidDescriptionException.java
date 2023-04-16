@@ -12,7 +12,7 @@ public class InvalidDescriptionException extends RuntimeException {
     private final String message;
 
     public InvalidDescriptionException(int maxLength) {
-        this.message = ("Описание фильма не должно превышать" + maxLength + " символов");
+        this.message = ("Описание фильма не должно превышать " + maxLength + " символов");
 
     }
 

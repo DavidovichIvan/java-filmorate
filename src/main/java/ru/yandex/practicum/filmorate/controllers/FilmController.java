@@ -82,7 +82,8 @@ public class FilmController {
         //    }
 
         try {
-            filmDuration = Integer.parseInt(film.getDuration());
+            //filmDuration = Integer.parseInt(film.getDuration());
+            filmDuration = film.getDuration();
         } catch (NumberFormatException nfe) {
             throw new InvalidFilmDurationException();
         }

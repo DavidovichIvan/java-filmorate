@@ -25,9 +25,10 @@ public class Film {
     private LocalDate releaseDate;
     @Getter
     @Setter
-    private String duration;
+    private int duration;
+    //private String duration;
 
-    public Film(String name, String description, LocalDate releaseDate, String durationInMinutes) {
+    public Film(String name, String description, LocalDate releaseDate, int durationInMinutes) {
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;

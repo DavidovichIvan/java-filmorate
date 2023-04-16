@@ -22,7 +22,7 @@ public class FilmControllerTest {
     Film testFilm = new Film("Terminator",
             "A human-like cyborg came from the future to nowadays to kill Sarah Connor",
             LocalDate.of(2020, 12, 12),
-            "120");
+            120);
     int testId = testFilm.getId();
 
     @Test
@@ -122,15 +122,16 @@ public class FilmControllerTest {
 
     }
 
-    @org.junit.Test(expected = InvalidFilmDurationException.class)
+    /* @org.junit.Test(expected = InvalidFilmDurationException.class)
     public void inappropriateDurationFormatTest() {
         testFilm.setDuration("test");
         fController.addFilm(testFilm);
-    }
+    } */
 
     @org.junit.Test(expected = InvalidFilmDurationException.class)
     public void inappropriateDurationFormatTest2() {
-        String negativeDuration = "-1";
+        //String negativeDuration = "-1";
+        int negativeDuration = -1;
         testFilm.setDuration(negativeDuration);
 
         fController.addFilm(testFilm);
