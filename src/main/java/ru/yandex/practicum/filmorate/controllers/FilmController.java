@@ -19,7 +19,7 @@ import java.util.Map;
 public class FilmController {
 
     @Getter
-    LocalDate earliestReleaseDate = LocalDate.of(1985, 12, 28);
+    LocalDate earliestReleaseDate = LocalDate.of(1895, 12, 28);
 
     @Getter
     private final int descriptionMaxLength = 200;
