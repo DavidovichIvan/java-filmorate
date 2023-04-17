@@ -7,6 +7,7 @@ package ru.yandex.practicum.filmorate.controllers;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -69,7 +70,7 @@ public class FilmController {
     private void filmDataValidate(Film film) {
         int filmDuration;
 
-        if (film.getName() == null || film.getName().isBlank()) {
+        if (!StringUtils.hasText(film.getName())) {
             log.info("Не введено название фильма {} ", film.getName());
             throw new InvalidFilmNameException();
         }
@@ -79,14 +80,7 @@ public class FilmController {
             throw new InvalidDescriptionException(descriptionMaxLength);
         }
 
-        //  if (film.getDescription().length() > descriptionMaxLength) {
-        //      String correctedDescription = film.getDescription().substring(0, descriptionMaxLength);
-        //        log.info("Описание фильма сокращено до {} символов", descriptionMaxLength);
-        //       film.setDescription(correctedDescription);
-        //    }
-
         try {
-            //filmDuration = Integer.parseInt(film.getDuration());
             filmDuration = film.getDuration();
         } catch (NumberFormatException nfe) {
             throw new InvalidFilmDurationException();
