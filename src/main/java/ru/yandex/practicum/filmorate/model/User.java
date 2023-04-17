@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @ToString
 @EqualsAndHashCode
+
 public class User {
     @Getter
     @Setter
@@ -22,9 +23,6 @@ public class User {
     private String name;
     @Getter
     @Setter
-    //@Email
-    //@NotNull
-    //@NotBlank
     private String email;
     @Getter
     @Setter

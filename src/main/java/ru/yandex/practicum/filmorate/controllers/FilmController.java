@@ -24,7 +24,7 @@ import java.util.Map;
 public class FilmController {
 
     @Getter
-    LocalDate earliestReleaseDate = LocalDate.of(1895, 12, 28);
+    private final LocalDate earliestReleaseDate = LocalDate.of(1895, 12, 28);
 
     @Getter
     private final int descriptionMaxLength = 200;
@@ -75,7 +75,8 @@ public class FilmController {
             throw new InvalidFilmNameException();
         }
 
-        if (film.getDescription().length() > descriptionMaxLength) {
+        if (StringUtils.hasText(film.getDescription())
+                && film.getDescription().length() > descriptionMaxLength) {
             log.info("Описание фильма превышает предельную длину");
             throw new InvalidDescriptionException(descriptionMaxLength);
         }

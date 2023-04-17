@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class StartPage {
 
     @GetMapping("/home")
-    public String homePage() {
-        final String startMessage = "Добро пожаловать, в приложение Filmorate!";
-        log.info("Запрошена стартовая страница");
+    public String home() {
+        final String defaultMessage = "Добро пожаловать, в приложение Filmorate!";
+        log.info("Запрос к эндпоинту /home");
 
-        return startMessage;
+        return defaultMessage;
     }
 
 }
