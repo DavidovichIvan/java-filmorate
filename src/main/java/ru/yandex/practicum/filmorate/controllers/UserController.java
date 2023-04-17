@@ -26,6 +26,7 @@ public class UserController {
 
         if (usersList.containsKey(user.getId())) {
             log.info("Запрос на добавление; пользователь с id: {} уже существует", user.getId());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdAlreadyExistsException(user);
         }
 
@@ -40,6 +41,7 @@ public class UserController {
     User updateUser(@RequestBody User user) {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdNotExistException(user);
         }
         userDataValidate(user);
@@ -61,16 +63,19 @@ public class UserController {
     private void userDataValidate(User user) {
         if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.info("Адрес электронной почты не введен или введен в неверном формате {} ", user.getEmail());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidEmailException(user.getEmail());
         }
 
         if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {
             log.info("Логин пустой или содержит пробелы");
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidLoginException();
         }
 
         if (user.getBirthday().isAfter(LocalDate.now())) {
             log.info("Дата рождения установлена в будущем");
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidBirthdayException(user.getBirthday());
         }
 

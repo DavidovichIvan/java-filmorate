@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ public class FilmController {
     public Film addFilm(@RequestBody Film film) {
         if (filmsList.containsKey(film.getId())) {
             log.info("Запрос на добавление; фильм с id: {} уже существует", film.getId());
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdAlreadyExistsException(film);
         }
         filmDataValidate(film);
@@ -51,7 +49,6 @@ public class FilmController {
     public Film updateFilm(@RequestBody Film film) {
         if (!filmsList.containsKey(film.getId())) {
             log.info("Запрос на обновление; не существует фильма с id: {} ", film.getId());
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdNotExistException(film);
         }
         filmDataValidate(film);
@@ -74,13 +71,11 @@ public class FilmController {
 
         if (film.getName() == null || film.getName().isBlank()) {
             log.info("Не введено название фильма {} ", film.getName());
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmNameException();
         }
 
         if (film.getDescription().length() > descriptionMaxLength) {
             log.info("Описание фильма превышает предельную длину");
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidDescriptionException(descriptionMaxLength);
         }
 
@@ -94,13 +89,11 @@ public class FilmController {
             //filmDuration = Integer.parseInt(film.getDuration());
             filmDuration = film.getDuration();
         } catch (NumberFormatException nfe) {
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmDurationException();
         }
 
         if (filmDuration <= 0) {
             log.info("Некорректно введена продолжительность фильма в минутах {} ", film.getDuration());
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmDurationException();
         }
 
@@ -108,7 +101,6 @@ public class FilmController {
                 || film.getReleaseDate().isAfter(LocalDate.now())) {
             log.info(String.valueOf(earliestReleaseDate));
             log.info("Некорректно введена дата релиза фильма {} ", film.getReleaseDate());
-            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmReleaseDateException();
         }
 
