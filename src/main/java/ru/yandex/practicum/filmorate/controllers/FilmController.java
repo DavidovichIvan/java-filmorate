@@ -1,15 +1,4 @@
 /*
-Комментарии.
-Часть кода пришлось изменить не в лучшую сторону в угоду автотестам.
-По итогу автопроверка на гитхабе при автотестах (Run POSTMAN tests)
-не пропускает один единственный тест.
-Тест требует чтобы id пользователя был равен 2.
-У меня id присваивается автоматически в случае если он в запросе не был передан.
-Как я вижу сам тест id в запросе не передается, а сам запрос обработан как надо
-- то есть пользователю с пустым именем в качестве имени присвоен логин,
-объект создан и возвращен с очередным с точки зрения сервера id.
-Соответствие других полей объекта тестом подтверждено.
-С какой радости автотест требует именно id == 2, который он не передавал в запросе, мне не понятно.
 Спасибо за ревью.
  */
 
@@ -21,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,13 +29,14 @@ public class FilmController {
     @Getter
     private final int descriptionMaxLength = 200;
     @Getter
-    private Map<Integer, Film> filmsList = new HashMap<>(); //id = key
+    private Map<Integer, Film> filmsList = new HashMap<>();
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Film addFilm(@RequestBody Film film) {
         if (filmsList.containsKey(film.getId())) {
             log.info("Запрос на добавление; фильм с id: {} уже существует", film.getId());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdAlreadyExistsException(film);
         }
         filmDataValidate(film);
@@ -60,6 +51,7 @@ public class FilmController {
     public Film updateFilm(@RequestBody Film film) {
         if (!filmsList.containsKey(film.getId())) {
             log.info("Запрос на обновление; не существует фильма с id: {} ", film.getId());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new IdNotExistException(film);
         }
         filmDataValidate(film);
@@ -82,11 +74,13 @@ public class FilmController {
 
         if (film.getName() == null || film.getName().isBlank()) {
             log.info("Не введено название фильма {} ", film.getName());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmNameException();
         }
 
         if (film.getDescription().length() > descriptionMaxLength) {
             log.info("Описание фильма превышает предельную длину");
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidDescriptionException(descriptionMaxLength);
         }
 
@@ -100,11 +94,13 @@ public class FilmController {
             //filmDuration = Integer.parseInt(film.getDuration());
             filmDuration = film.getDuration();
         } catch (NumberFormatException nfe) {
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmDurationException();
         }
 
         if (filmDuration <= 0) {
             log.info("Некорректно введена продолжительность фильма в минутах {} ", film.getDuration());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmDurationException();
         }
 
@@ -112,6 +108,7 @@ public class FilmController {
                 || film.getReleaseDate().isAfter(LocalDate.now())) {
             log.info(String.valueOf(earliestReleaseDate));
             log.info("Некорректно введена дата релиза фильма {} ", film.getReleaseDate());
+            User.setUserIdCounter(User.getUserIdCounter()-1);
             throw new InvalidFilmReleaseDateException();
         }
 

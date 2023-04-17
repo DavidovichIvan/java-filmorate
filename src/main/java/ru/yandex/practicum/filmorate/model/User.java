@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 public class User {
+    @Getter
+    @Setter
     private static int UserIdCounter = 1;
 
     @Getter
