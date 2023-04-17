@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class IdNotExistException extends RuntimeException {
     private String message;
 
-    public IdNotExistException(Object o) {
+    public IdNotExistException() {
                    this.message = "Не существует пользователя/фильма таким c id!";
 
     }

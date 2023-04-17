@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class IdAlreadyExistsException extends RuntimeException {
     private String message;
 
-    public IdAlreadyExistsException(Object o) {
+    public IdAlreadyExistsException() {
        this.message = "Такой id уже существует!";
             }
 }

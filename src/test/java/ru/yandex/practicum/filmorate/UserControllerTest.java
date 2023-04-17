@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controllers.UserController;
@@ -19,9 +20,9 @@ public class UserControllerTest {
 
     UserController uController = new UserController();
     User testUser = new User("Dogman@ttt.tt",
-             "BigDog",
-             "Dogman",
-             LocalDate.of(2020, 12, 12));
+            "BigDog",
+            "Dogman",
+            LocalDate.of(2020, 12, 12));
 
     int testId = testUser.getId();
 
@@ -52,7 +53,7 @@ public class UserControllerTest {
 
         uController.addUser(testUser);
         assertEquals(uController.getAllUsers().get(0).getName(),
-                 uController.getAllUsers().get(0).getLogin());
+                uController.getAllUsers().get(0).getLogin());
     }
 
     @org.junit.Test(expected = InvalidBirthdayException.class)
@@ -72,6 +73,11 @@ public class UserControllerTest {
     public void loginShouldNotContainWhitespacesTest() {
         testUser.setLogin(" tes t");
         uController.addUser(testUser);
+    }
+
+    @AfterAll
+    public static void cleanUp() {
+        User.setUserIdCounter(1);
     }
 
 }

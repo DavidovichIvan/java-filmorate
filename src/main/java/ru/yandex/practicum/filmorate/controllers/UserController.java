@@ -27,7 +27,7 @@ public class UserController {
         if (usersList.containsKey(user.getId())) {
             log.info("Запрос на добавление; пользователь с id: {} уже существует", user.getId());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
-            throw new IdAlreadyExistsException(user);
+            throw new IdAlreadyExistsException();
         }
 
         userDataValidate(user);
@@ -42,7 +42,7 @@ public class UserController {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
-            throw new IdNotExistException(user);
+            throw new IdNotExistException();
         }
         userDataValidate(user);
 

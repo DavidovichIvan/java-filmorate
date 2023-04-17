@@ -35,7 +35,7 @@ public class FilmController {
     public Film addFilm(@RequestBody Film film) {
         if (filmsList.containsKey(film.getId())) {
             log.info("Запрос на добавление; фильм с id: {} уже существует", film.getId());
-            throw new IdAlreadyExistsException(film);
+            throw new IdAlreadyExistsException();
         }
         filmDataValidate(film);
 
@@ -49,7 +49,7 @@ public class FilmController {
     public Film updateFilm(@RequestBody Film film) {
         if (!filmsList.containsKey(film.getId())) {
             log.info("Запрос на обновление; не существует фильма с id: {} ", film.getId());
-            throw new IdNotExistException(film);
+            throw new IdNotExistException();
         }
         filmDataValidate(film);
 
