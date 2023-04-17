@@ -31,6 +31,9 @@ public class UserController {
         }
 
         userDataValidate(user);
+        if (user.getId() != User.getUserIdCounter()) {
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+        }
         usersList.put(user.getId(), user);
         log.info("Запрос на добавление; сохранен пользователь: {} ", user);
         return user;
@@ -45,7 +48,9 @@ public class UserController {
             throw new IdNotExistException();
         }
         userDataValidate(user);
-
+        if (user.getId() != User.getUserIdCounter()) {
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+        }
         usersList.put(user.getId(), user);
         log.info("Запрос на обновление; обновлен пользователь: {} ", user);
         return user;
