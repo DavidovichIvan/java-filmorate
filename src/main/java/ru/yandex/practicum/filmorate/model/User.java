@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @ToString
@@ -25,9 +22,9 @@ public class User {
     private String name;
     @Getter
     @Setter
-    @Email
-    @NotNull
-    @NotBlank
+    //@Email
+    //@NotNull
+    //@NotBlank
     private String email;
     @Getter
     @Setter

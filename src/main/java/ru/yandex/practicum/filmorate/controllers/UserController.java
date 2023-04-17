@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.User;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,18 +22,22 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public User addUser(@Valid @RequestBody User user) {
+    //public User addUser(@Valid @RequestBody User user) {
+    public User addUser(@RequestBody User user) {
 
         if (usersList.containsKey(user.getId())) {
             log.info("Запрос на добавление; пользователь с id: {} уже существует", user.getId());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
+
+            log.info("Счетчик ID: "+User.getUserIdCounter());
+
             throw new IdAlreadyExistsException();
         }
 
         userDataValidate(user);
         usersList.put(user.getId(), user);
         correctIdCounter(user);
-        log.info("Запрос на добавление; сохранен пользователь: {} ", user);
+        log.info("Счетчик ID: "+User.getUserIdCounter()+" Запрос на добавление; сохранен пользователь: {} ", user);
         return user;
     }
 
@@ -44,12 +47,15 @@ public class UserController {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
+
+            log.info("Счетчик ID: "+User.getUserIdCounter());
+
             throw new IdNotExistException();
         }
         userDataValidate(user);
         usersList.put(user.getId(), user);
-        correctIdCounter(user);
-        log.info("Запрос на обновление; обновлен пользователь: {} ", user);
+        User.setUserIdCounter(User.getUserIdCounter() - 1);
+        log.info("Счетчик ID: "+User.getUserIdCounter()+" Запрос на обновление; обновлен пользователь: {} ", user);
         return user;
     }
 
@@ -58,6 +64,9 @@ public class UserController {
     public List<User> getAllUsers() {
         log.info("Текущее количество пользователей: {}", usersList.size());
         List<User> users = new ArrayList<>(usersList.values());
+
+        log.info("Счетчик ID: "+User.getUserIdCounter());
+
         return users;
     }
 
@@ -65,18 +74,27 @@ public class UserController {
         if (!StringUtils.hasText(user.getEmail()) || !user.getEmail().contains("@")) {
             log.info("Адрес электронной почты не введен или введен в неверном формате {} ", user.getEmail());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
+
+            log.info("Счетчик ID: "+User.getUserIdCounter());
+
             throw new InvalidEmailException(user.getEmail());
         }
 
         if (!StringUtils.hasText(user.getLogin()) || user.getLogin().contains(" ")) {
             log.info("Логин пустой или содержит пробелы");
             User.setUserIdCounter(User.getUserIdCounter() - 1);
+
+            log.info("Счетчик ID: "+User.getUserIdCounter());
+
             throw new InvalidLoginException();
         }
 
         if (user.getBirthday().isAfter(LocalDate.now())) {
             log.info("Дата рождения установлена в будущем");
             User.setUserIdCounter(User.getUserIdCounter() - 1);
+
+            log.info("Счетчик ID: "+User.getUserIdCounter());
+
             throw new InvalidBirthdayException(user.getBirthday());
         }
 
