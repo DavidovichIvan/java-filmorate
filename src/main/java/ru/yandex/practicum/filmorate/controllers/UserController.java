@@ -19,17 +19,14 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    } //вроде как прикрутили сервис;
-    // теперь надо чтобы сервис также имел хранилище внутри = вроде сделал;
-    // теперь контролер зависит от сервиса а сервис от хранилища
-
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public User addUser(@RequestBody User user) {  //считали тело запроса (пользователь)
-        return userService.    //обратились к объекту-сервису
-                getUserStorage().  //у него внутри есть объект-хранилище
-                addUser(user);  //обратились к методам хранилища
+    public User addUser(@RequestBody User user) {
+        return userService.
+                getUserStorage().
+                addUser(user);
     }
 
     @PutMapping
@@ -47,33 +44,32 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User getUser(@PathVariable("id") String id) {
-
         return userService.getUser(id);
     }
+
     @PutMapping("{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
     public String addFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
-        userService.addFriend(id,friendId);
+        userService.addFriend(id, friendId);
         return "Друг добавлен";
     }
 
     @DeleteMapping("{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
-        userService.deleteFriend(id,friendId);
+        userService.deleteFriend(id, friendId);
         return "Друг удален";
     }
+
     @GetMapping("{id}/friends")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getFriends(@PathVariable("id") String id) {
         return userService.getFriends(id);
-           }
+    }
 
     @GetMapping("{id}/friends/common/{otherId}")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getCommonFriends(@PathVariable("id") String id, @PathVariable("otherId") String otherId) {
         return userService.getCommonFriends(id, otherId);
     }
-
-
 }

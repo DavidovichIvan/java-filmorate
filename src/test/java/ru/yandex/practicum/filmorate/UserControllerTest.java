@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate;
 
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class UserControllerTest {
-//@Autowired
+    //@Autowired
     UserStorage uController = new InMemoryUserStorage();
 
     User testUser = new User("Dogman@ttt.tt",
@@ -64,7 +63,6 @@ public class UserControllerTest {
         uController.addUser(testUser);
     }
 
-
     @org.junit.Test(expected = InvalidLoginException.class)
     public void loginShouldNotBeEmptyTest() {
         testUser.setLogin("");
@@ -81,10 +79,4 @@ public class UserControllerTest {
     public static void cleanUp() {
         User.setUserIdCounter(1);
     }
-
 }
-
-
-
-
-

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @ToString
 @EqualsAndHashCode
 public class Film {
@@ -30,7 +29,6 @@ public class Film {
     @Getter
     @Setter
     private int duration;
-    //private String duration;
 
     @Getter
     @Setter

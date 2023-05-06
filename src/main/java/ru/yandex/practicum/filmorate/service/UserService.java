@@ -34,13 +34,12 @@ public class UserService {
     }
 
     public void addFriend(String id, String friendId) {
-        int userId = VariablesValidation.checkRequestId(id);  //запарсили id из запроса в число (либо исключение)
+        int userId = VariablesValidation.checkRequestId(id);
         int newFriendId = VariablesValidation.checkRequestId(friendId);
 
-        checkIfUserExists(userId);  //проверили что пользователь с таким id есть в хранилище (либо исключение)
+        checkIfUserExists(userId);
         checkIfUserExists(newFriendId);
 
-        //соответственно если дошли до этой точки то все корректно и можно добавляться в друзья друг другу
         userStorage.
                 getUsersList().
                 get(userId).
@@ -59,7 +58,6 @@ public class UserService {
         checkIfUserExists(userId);
 
         if (userStorage.getUsersList().get(userId).getFriends().contains(friendId)) {
-
             userStorage.
                     getUsersList().
                     get(userId).
@@ -73,7 +71,7 @@ public class UserService {
         }
     }
 
-    public List<User> getFriends(String id) {   //можно упростить чтобы возвращался только список из номеров id друзей;
+    public List<User> getFriends(String id) {
         int userId = VariablesValidation.checkRequestId(id);
         checkIfUserExists(userId);
 
@@ -122,5 +120,4 @@ public class UserService {
             throw new IdNotExistException();
         }
     }
-
 }

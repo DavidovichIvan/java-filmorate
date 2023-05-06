@@ -11,7 +11,6 @@ import java.util.Set;
 
 @ToString
 @EqualsAndHashCode
-
 public class User {
     @Getter
     @Setter

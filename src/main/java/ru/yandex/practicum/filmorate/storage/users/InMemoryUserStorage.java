@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Slf4j
 @Getter
 @Setter
@@ -38,8 +39,8 @@ public class InMemoryUserStorage implements UserStorage {
         return user;
     }
 
-@Override
-public User updateUser(User user) {
+    @Override
+    public User updateUser(User user) {
         if (!usersList.containsKey(user.getId())) {
             log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
             User.setUserIdCounter(User.getUserIdCounter() - 1);
@@ -52,7 +53,7 @@ public User updateUser(User user) {
         return user;
     }
 
-@Override
+    @Override
     public List<User> getAllUsers() {
         log.info("Текущее количество пользователей: {}", usersList.size());
         List<User> users = new ArrayList<>(usersList.values());
@@ -83,13 +84,6 @@ public User updateUser(User user) {
         }
     }
 
-    //метод добавлен в код исключительно для прохождения автотеста (по логике создателей тестов не может быть пустых id
-    // - то есть если объект пришел по запросу но не прошел валидацию, он в хранилище не попадает, но счетчик id увеличивается
-    //это ни на что не влияло кроме того что id не идут сквозной нумерацией (чего все равно не будет если мы например какието объекты начнем удлять потом)
-    //
-
-    //if = если id присваивается не сервером а передан в запросе, то счетчик повышать не нужно
-    //while = корректировка на случай если счетчик стал равен уже существующему id  = вот этот момент реально нужен был независимо от первого if
     private void correctIdCounter(User user) {
         if (user.getId() != User.getUserIdCounter() - 1) {
             User.setUserIdCounter(User.getUserIdCounter() - 1);
@@ -98,7 +92,4 @@ public User updateUser(User user) {
             User.setUserIdCounter(User.getUserIdCounter() + 1);
         }
     }
-
-
-
 }

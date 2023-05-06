@@ -22,11 +22,10 @@ public class FilmService {
     private final FilmStorage filmStorage;
     private final UserService userService;
 
-    @Autowired  //сделали хранилище зависимостью для сервиса
-    public FilmService(FilmStorage filmStorage, UserService userService)
-    {
+    @Autowired
+    public FilmService(FilmStorage filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
-        this.userService = userService; //добавили зависимость чтобы вызывать метод из того класса ниже
+        this.userService = userService;
     }
 
     public Film getFilm(String id) {
@@ -42,7 +41,7 @@ public class FilmService {
         int userWhoPutLikeId = VariablesValidation.checkRequestId(userId);
 
         checkIfFilmExists(filmToPutLikeId);
-        userService.checkIfUserExists(userWhoPutLikeId);  //чтобы вот здесь обращаться к методу добавили  сверху вторую зависимость
+        userService.checkIfUserExists(userWhoPutLikeId);
 
         filmStorage.
                 getFilmsList().
@@ -66,16 +65,16 @@ public class FilmService {
     }
 
     public List<Film> getPopularFilms(String count) {
-      int numberOfFilms =  VariablesValidation.checkRequestId(count);
+        int numberOfFilms = VariablesValidation.checkRequestId(count);
 
         List<Film> popularFilms = new ArrayList<>(filmStorage.getAllFilms());
         popularFilms.sort(Comparator.comparingInt(a -> a.getLikes().size()));
         Collections.reverse(popularFilms);
 
-           while (popularFilms.size() > numberOfFilms) {
-                       popularFilms.remove(popularFilms.size()-1);
-                   }
-       return popularFilms;
+        while (popularFilms.size() > numberOfFilms) {
+            popularFilms.remove(popularFilms.size() - 1);
+        }
+        return popularFilms;
     }
 
     private void checkIfFilmExists(Integer filmId) {
@@ -83,12 +82,4 @@ public class FilmService {
             throw new IdNotExistException();
         }
     }
-
-
-
 }
-
-
-//для последнего метода - берем в цикле всю мапу с фильмами и записываем их в цикле в новый упорядоченный список с компаратором
-// (в качестве компаратора берем размер сета с лайками);
-//далее от этого списка создаем новый список и берем столько фильмов сколько в запросе передано

@@ -8,8 +8,10 @@ import java.util.Map;
 public interface FilmStorage {
 
     Film addFilm(Film film);
-    Film updateFilm(Film film);
-    List<Film> getAllFilms();
-    Map<Integer, Film> getFilmsList();
 
+    Film updateFilm(Film film);
+
+    List<Film> getAllFilms();
+
+    Map<Integer, Film> getFilmsList();
 }
