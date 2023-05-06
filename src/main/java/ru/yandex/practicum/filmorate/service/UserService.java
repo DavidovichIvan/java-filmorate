@@ -21,7 +21,7 @@ public class UserService {
 
     private final UserStorage userStorage;
 
-    @Autowired  //сделали хранилище зависимостью для сервиса
+    @Autowired
     public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
@@ -40,16 +40,16 @@ public class UserService {
         checkIfUserExists(userId);
         checkIfUserExists(newFriendId);
 
-        userStorage.
-                getUsersList().
-                get(userId).
-                getFriends().
-                add(newFriendId);
-        userStorage.
-                getUsersList().
-                get(newFriendId).
-                getFriends().
-                add(userId);
+        userStorage
+                .getUsersList()
+                .get(userId)
+                .getFriends()
+                .add(newFriendId);
+        userStorage
+                .getUsersList()
+                .get(newFriendId)
+                .getFriends()
+                .add(userId);
     }
 
     public void deleteFriend(String id, String friendId) {
@@ -58,16 +58,16 @@ public class UserService {
         checkIfUserExists(userId);
 
         if (userStorage.getUsersList().get(userId).getFriends().contains(friendId)) {
-            userStorage.
-                    getUsersList().
-                    get(userId).
-                    getFriends().
-                    remove(friendToDeleteId);
-            userStorage.
-                    getUsersList().
-                    get(friendToDeleteId).
-                    getFriends().
-                    remove(userId);
+            userStorage
+                    .getUsersList()
+                    .get(userId)
+                    .getFriends()
+                    .remove(friendToDeleteId);
+            userStorage
+                    .getUsersList()
+                    .get(friendToDeleteId)
+                    .getFriends()
+                    .remove(userId);
         }
     }
 
@@ -75,10 +75,10 @@ public class UserService {
         int userId = VariablesValidation.checkRequestId(id);
         checkIfUserExists(userId);
 
-        Set<Integer> friends = userStorage.
-                getUsersList().
-                get(userId).
-                getFriends();
+        Set<Integer> friends = userStorage
+                .getUsersList()
+                .get(userId)
+                .getFriends();
 
         List<User> friendsList = new ArrayList<>();
 
@@ -94,22 +94,22 @@ public class UserService {
         checkIfUserExists(firstUserId);
         checkIfUserExists(secondUserId);
 
-        Set<Integer> firstUserFriends = userStorage.
-                getUsersList().
-                get(firstUserId).
-                getFriends();
+        Set<Integer> firstUserFriends = userStorage
+                .getUsersList()
+                .get(firstUserId)
+                .getFriends();
 
-        Set<Integer> secondUserFriends = userStorage.
-                getUsersList().
-                get(secondUserId).
-                getFriends();
+        Set<Integer> secondUserFriends = userStorage
+                .getUsersList()
+                .get(secondUserId)
+                .getFriends();
 
         List<User> commonFriendsList = new ArrayList<>();
 
         for (Integer i : firstUserFriends) {
             if (secondUserFriends.contains(i)) {
-                commonFriendsList.
-                        add(userStorage.getUsersList().get(i));
+                commonFriendsList
+                        .add(userStorage.getUsersList().get(i));
             }
         }
         return commonFriendsList;

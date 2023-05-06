@@ -43,11 +43,11 @@ public class FilmService {
         checkIfFilmExists(filmToPutLikeId);
         userService.checkIfUserExists(userWhoPutLikeId);
 
-        filmStorage.
-                getFilmsList().
-                get(filmToPutLikeId).
-                getLikes().
-                add(userWhoPutLikeId);
+        filmStorage
+                .getFilmsList()
+                .get(filmToPutLikeId)
+                .getLikes()
+                .add(userWhoPutLikeId);
     }
 
     public void deleteLike(String filmId, String userId) {
@@ -57,11 +57,11 @@ public class FilmService {
         checkIfFilmExists(filmToDeleteLikeId);
         userService.checkIfUserExists(userWhoDeleteLikeId);
 
-        filmStorage.
-                getFilmsList().
-                get(filmToDeleteLikeId).
-                getLikes().
-                remove(userWhoDeleteLikeId);
+        filmStorage
+                .getFilmsList()
+                .get(filmToDeleteLikeId)
+                .getLikes()
+                .remove(userWhoDeleteLikeId);
     }
 
     public List<Film> getPopularFilms(String count) {

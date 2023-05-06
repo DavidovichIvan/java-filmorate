@@ -110,5 +110,4 @@ public class InMemoryFilmStorage implements FilmStorage {
             Film.setFilmIdCounter(Film.getFilmIdCounter() + 1);
         }
     }
-
 }

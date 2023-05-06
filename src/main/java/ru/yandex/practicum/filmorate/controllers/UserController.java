@@ -24,9 +24,9 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public User addUser(@RequestBody User user) {
-        return userService.
-                getUserStorage().
-                addUser(user);
+        return userService
+                .getUserStorage()
+                .addUser(user);
     }
 
     @PutMapping
