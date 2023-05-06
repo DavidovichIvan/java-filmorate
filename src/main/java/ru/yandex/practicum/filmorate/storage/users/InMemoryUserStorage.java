@@ -1,0 +1,104 @@
+package ru.yandex.practicum.filmorate.storage.users;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import ru.yandex.practicum.filmorate.exceptions.*;
+import ru.yandex.practicum.filmorate.model.User;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+@Slf4j
+@Getter
+@Setter
+@Component
+public class InMemoryUserStorage implements UserStorage {
+
+    @Getter
+    Map<Integer, User> usersList = new HashMap<>();
+
+    @Override
+    public User addUser(User user) {
+
+        if (usersList.containsKey(user.getId())) {
+            log.info("Запрос на добавление; пользователь с id: {} уже существует", user.getId());
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+            throw new IdAlreadyExistsException();
+        }
+
+        userDataValidate(user);
+        usersList.put(user.getId(), user);
+        correctIdCounter(user);
+        log.info("Запрос на добавление; сохранен пользователь: {} ", user);
+        return user;
+    }
+
+@Override
+public User updateUser(User user) {
+        if (!usersList.containsKey(user.getId())) {
+            log.info("Запрос на обновление; не существует пользователя с id: {} ", user.getId());
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+            throw new IdNotExistException();
+        }
+        userDataValidate(user);
+        usersList.put(user.getId(), user);
+        User.setUserIdCounter(User.getUserIdCounter() - 1);
+        log.info("Запрос на обновление; обновлен пользователь: {} ", user);
+        return user;
+    }
+
+@Override
+    public List<User> getAllUsers() {
+        log.info("Текущее количество пользователей: {}", usersList.size());
+        List<User> users = new ArrayList<>(usersList.values());
+        return users;
+    }
+
+    private void userDataValidate(User user) {
+        if (!StringUtils.hasText(user.getEmail()) || !user.getEmail().contains("@")) {
+            log.info("Адрес электронной почты не введен или введен в неверном формате {} ", user.getEmail());
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+            throw new InvalidEmailException(user.getEmail());
+        }
+
+        if (!StringUtils.hasText(user.getLogin()) || user.getLogin().contains(" ")) {
+            log.info("Логин пустой или содержит пробелы");
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+            throw new InvalidLoginException();
+        }
+
+        if (user.getBirthday().isAfter(LocalDate.now())) {
+            log.info("Дата рождения установлена в будущем");
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+            throw new InvalidBirthdayException(user.getBirthday());
+        }
+
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+    }
+
+    //метод добавлен в код исключительно для прохождения автотеста (по логике создателей тестов не может быть пустых id
+    // - то есть если объект пришел по запросу но не прошел валидацию, он в хранилище не попадает, но счетчик id увеличивается
+    //это ни на что не влияло кроме того что id не идут сквозной нумерацией (чего все равно не будет если мы например какието объекты начнем удлять потом)
+    //
+
+    //if = если id присваивается не сервером а передан в запросе, то счетчик повышать не нужно
+    //while = корректировка на случай если счетчик стал равен уже существующему id  = вот этот момент реально нужен был независимо от первого if
+    private void correctIdCounter(User user) {
+        if (user.getId() != User.getUserIdCounter() - 1) {
+            User.setUserIdCounter(User.getUserIdCounter() - 1);
+        }
+        while (usersList.containsKey(User.getUserIdCounter())) {
+            User.setUserIdCounter(User.getUserIdCounter() + 1);
+        }
+    }
+
+
+
+}

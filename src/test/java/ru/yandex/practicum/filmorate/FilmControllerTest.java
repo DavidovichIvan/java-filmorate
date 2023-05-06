@@ -2,12 +2,12 @@ package ru.yandex.practicum.filmorate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.controllers.FilmController;
 import ru.yandex.practicum.filmorate.exceptions.InvalidDescriptionException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmDurationException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmNameException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmReleaseDateException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.films.InMemoryFilmStorage;
 
 import java.nio.charset.Charset;
 import java.time.LocalDate;
@@ -18,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class FilmControllerTest {
 
-    FilmController fController = new FilmController();
+    InMemoryFilmStorage fController = new InMemoryFilmStorage();
+   // FilmStorage fController = new InMemoryFilmStorage(); //сначала создавал так с типом интерфейса; если так делать то объект класса не видит методы, которые в интерфейсе отсутствуют (что-странно); 
     Film testFilm = new Film("Terminator",
             "A human-like cyborg came from the future to nowadays to kill Sarah Connor",
             LocalDate.of(2020, 12, 12),
@@ -28,7 +29,7 @@ public class FilmControllerTest {
     @Test
     public void allInputIsCorrectPositiveTest() {
         assertTrue(fController
-                .getFilmsList()
+                .getAllFilms()
                 .isEmpty());
 
         fController.addFilm(testFilm);

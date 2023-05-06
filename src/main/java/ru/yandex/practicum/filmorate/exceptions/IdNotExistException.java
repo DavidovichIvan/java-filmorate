@@ -10,7 +10,7 @@ public class IdNotExistException extends RuntimeException {
     private String message;
 
     public IdNotExistException() {
-                   this.message = "Не существует пользователя/фильма таким c id!";
+                   this.message = "Не существует пользователя/фильма таким c id либо параметр запроса передан в нечисловом формате!";
 
     }
 }
