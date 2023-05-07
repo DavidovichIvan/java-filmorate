@@ -9,10 +9,7 @@ import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Getter
@@ -58,6 +55,64 @@ public class InMemoryUserStorage implements UserStorage {
         log.info("Текущее количество пользователей: {}", usersList.size());
         List<User> users = new ArrayList<>(usersList.values());
         return users;
+    }
+
+    @Override
+    public User getUser(Integer id) {
+        return usersList.get(id);
+    }
+
+    @Override
+    public void addFriend(Integer userId, Integer newFriendId) {
+        usersList.get(userId)
+                .getFriends()
+                .add(newFriendId);
+        usersList.get(newFriendId)
+                .getFriends()
+                .add(userId);
+    }
+
+    public void deleteFriend(Integer userId, Integer friendId) {
+        if (usersList.get(userId).getFriends().contains(friendId)) {
+            usersList.get(userId)
+                    .getFriends()
+                    .remove(friendId);
+
+            usersList.get(friendId)
+                    .getFriends()
+                    .remove(userId);
+        }
+    }
+
+    public List<User> getFriends(Integer userId) {
+
+        Set<Integer> friends = usersList.get(userId)
+                .getFriends();
+
+        List<User> friendsList = new ArrayList<>();
+
+        for (Integer i : friends) {
+            friendsList.add(usersList.get(i));
+        }
+        return friendsList;
+    }
+
+    public List<User> getCommonFriends(Integer firstUserId, Integer secondUserId) {
+        Set<Integer> firstUserFriends = usersList.get(firstUserId)
+                .getFriends();
+
+        Set<Integer> secondUserFriends = usersList.get(secondUserId)
+                .getFriends();
+
+        List<User> commonFriendsList = new ArrayList<>();
+
+        for (Integer i : firstUserFriends) {
+            if (secondUserFriends.contains(i)) {
+                commonFriendsList
+                        .add(usersList.get(i));
+            }
+        }
+        return commonFriendsList;
     }
 
     private void userDataValidate(User user) {

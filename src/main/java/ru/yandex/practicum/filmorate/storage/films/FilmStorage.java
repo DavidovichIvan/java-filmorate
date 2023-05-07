@@ -14,4 +14,12 @@ public interface FilmStorage {
     List<Film> getAllFilms();
 
     Map<Integer, Film> getFilmsList();
+
+    Film getFilm(Integer id);
+
+    List<Film> getPopularFilms(Integer numberOfFilms);
+
+    void putLike(Integer film, Integer user);
+
+    void deleteLike(Integer film, Integer user);
 }

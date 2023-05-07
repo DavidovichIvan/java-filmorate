@@ -9,10 +9,7 @@ import ru.yandex.practicum.filmorate.exceptions.*;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -99,6 +96,39 @@ public class InMemoryFilmStorage implements FilmStorage {
             Film.setFilmIdCounter(Film.getFilmIdCounter() - 1);
             throw new InvalidFilmReleaseDateException();
         }
+    }
+
+    @Override
+    public Film getFilm(Integer id) {
+        if (!filmsList.containsKey(id)) {
+            throw new IdNotExistException();
+        }
+        return getFilmsList().get(id);
+    }
+
+    @Override
+    public List<Film> getPopularFilms(Integer numberOfFilms) {
+        List<Film> popularFilms = new ArrayList<>(getAllFilms());
+        popularFilms.sort(Comparator.comparingInt(a -> a.getLikes().size()));
+        Collections.reverse(popularFilms);
+
+        while (popularFilms.size() > numberOfFilms) {
+            popularFilms.remove(popularFilms.size() - 1);
+        }
+        return popularFilms;
+    }
+
+    @Override
+    public void putLike(Integer film, Integer user) {
+        filmsList.get(film)
+                .getLikes()
+                .add(user);
+    }
+
+    public void deleteLike(Integer film, Integer user) {
+        filmsList.get(film)
+                .getLikes()
+                .remove(user);
     }
 
     private void correctIdFilmCounter(Film film) {

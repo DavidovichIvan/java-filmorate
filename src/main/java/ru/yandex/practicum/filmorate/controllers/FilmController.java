@@ -1,7 +1,3 @@
-/*
-ТЗ-10
- */
-
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,19 +26,19 @@ public class FilmController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Film addFilm(@RequestBody Film film) {
-        return filmService.getFilmStorage().addFilm(film);
+        return filmService.addFilm(film);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public Film updateFilm(@RequestBody Film film) {
-        return filmService.getFilmStorage().updateFilm(film);
+        return filmService.updateFilm(film);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Film> getAllFilms() {
-        return filmService.getFilmStorage().getAllFilms();
+        return filmService.getAllFilms();
     }
 
     @GetMapping("/{id}")

@@ -9,9 +9,7 @@ import ru.yandex.practicum.filmorate.exceptions.IdNotExistException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.users.UserStorage;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Getter
@@ -30,7 +28,7 @@ public class UserService {
         int requestId = VariablesValidation.checkRequestId(id);
         checkIfUserExists(requestId);
 
-        return userStorage.getUsersList().get(requestId);
+        return userStorage.getUser(requestId);
     }
 
     public void addFriend(String id, String friendId) {
@@ -40,16 +38,7 @@ public class UserService {
         checkIfUserExists(userId);
         checkIfUserExists(newFriendId);
 
-        userStorage
-                .getUsersList()
-                .get(userId)
-                .getFriends()
-                .add(newFriendId);
-        userStorage
-                .getUsersList()
-                .get(newFriendId)
-                .getFriends()
-                .add(userId);
+        userStorage.addFriend(userId, newFriendId);
     }
 
     public void deleteFriend(String id, String friendId) {
@@ -57,35 +46,14 @@ public class UserService {
         int friendToDeleteId = VariablesValidation.checkRequestId(friendId);
         checkIfUserExists(userId);
 
-        if (userStorage.getUsersList().get(userId).getFriends().contains(friendId)) {
-            userStorage
-                    .getUsersList()
-                    .get(userId)
-                    .getFriends()
-                    .remove(friendToDeleteId);
-            userStorage
-                    .getUsersList()
-                    .get(friendToDeleteId)
-                    .getFriends()
-                    .remove(userId);
-        }
+        userStorage.deleteFriend(userId, friendToDeleteId);
     }
 
     public List<User> getFriends(String id) {
         int userId = VariablesValidation.checkRequestId(id);
         checkIfUserExists(userId);
 
-        Set<Integer> friends = userStorage
-                .getUsersList()
-                .get(userId)
-                .getFriends();
-
-        List<User> friendsList = new ArrayList<>();
-
-        for (Integer i : friends) {
-            friendsList.add(userStorage.getUsersList().get(i));
-        }
-        return friendsList;
+        return userStorage.getFriends(userId);
     }
 
     public List<User> getCommonFriends(String id, String otherId) {
@@ -94,25 +62,20 @@ public class UserService {
         checkIfUserExists(firstUserId);
         checkIfUserExists(secondUserId);
 
-        Set<Integer> firstUserFriends = userStorage
-                .getUsersList()
-                .get(firstUserId)
-                .getFriends();
+        return userStorage.getCommonFriends(firstUserId, secondUserId);
+    }
 
-        Set<Integer> secondUserFriends = userStorage
-                .getUsersList()
-                .get(secondUserId)
-                .getFriends();
 
-        List<User> commonFriendsList = new ArrayList<>();
+    public User addUser(User user) {
+        return userStorage.addUser(user);
+    }
 
-        for (Integer i : firstUserFriends) {
-            if (secondUserFriends.contains(i)) {
-                commonFriendsList
-                        .add(userStorage.getUsersList().get(i));
-            }
-        }
-        return commonFriendsList;
+    public User updateUser(User user) {
+        return userStorage.updateUser(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userStorage.getAllUsers();
     }
 
     public void checkIfUserExists(Integer requestId) {

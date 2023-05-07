@@ -24,21 +24,19 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public User addUser(@RequestBody User user) {
-        return userService
-                .getUserStorage()
-                .addUser(user);
+        return userService.addUser(user);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@RequestBody User user) {
-        return userService.getUserStorage().updateUser(user);
+        return userService.updateUser(user);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
-        return userService.getUserStorage().getAllUsers();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")

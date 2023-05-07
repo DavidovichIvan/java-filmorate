@@ -15,4 +15,14 @@ public interface UserStorage {
 
     Map<Integer, User> getUsersList();
 
+    User getUser(Integer id);
+
+    void addFriend(Integer userId, Integer newFriendId);
+
+    void deleteFriend(Integer userId, Integer friendId);
+
+   List<User> getFriends(Integer id);
+
+   List<User> getCommonFriends(Integer id, Integer otherId);
+
 }

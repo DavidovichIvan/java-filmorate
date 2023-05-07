@@ -9,9 +9,6 @@ import ru.yandex.practicum.filmorate.exceptions.IdNotExistException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.films.FilmStorage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -30,10 +27,7 @@ public class FilmService {
 
     public Film getFilm(String id) {
         int requestId = VariablesValidation.checkRequestId(id);
-
-        if (!filmStorage.getFilmsList().containsKey(requestId)) {
-            throw new IdNotExistException();
-        } else return filmStorage.getFilmsList().get(requestId);
+        return filmStorage.getFilm(requestId);
     }
 
     public void putLike(String filmId, String userId) {
@@ -43,11 +37,7 @@ public class FilmService {
         checkIfFilmExists(filmToPutLikeId);
         userService.checkIfUserExists(userWhoPutLikeId);
 
-        filmStorage
-                .getFilmsList()
-                .get(filmToPutLikeId)
-                .getLikes()
-                .add(userWhoPutLikeId);
+        filmStorage.putLike(filmToPutLikeId, userWhoPutLikeId);
     }
 
     public void deleteLike(String filmId, String userId) {
@@ -57,24 +47,24 @@ public class FilmService {
         checkIfFilmExists(filmToDeleteLikeId);
         userService.checkIfUserExists(userWhoDeleteLikeId);
 
-        filmStorage
-                .getFilmsList()
-                .get(filmToDeleteLikeId)
-                .getLikes()
-                .remove(userWhoDeleteLikeId);
+        filmStorage.deleteLike(filmToDeleteLikeId, userWhoDeleteLikeId);
     }
 
     public List<Film> getPopularFilms(String count) {
         int numberOfFilms = VariablesValidation.checkRequestId(count);
+        return filmStorage.getPopularFilms(numberOfFilms);
+    }
 
-        List<Film> popularFilms = new ArrayList<>(filmStorage.getAllFilms());
-        popularFilms.sort(Comparator.comparingInt(a -> a.getLikes().size()));
-        Collections.reverse(popularFilms);
+    public Film addFilm(Film film) {
+        return filmStorage.addFilm(film);
+    }
 
-        while (popularFilms.size() > numberOfFilms) {
-            popularFilms.remove(popularFilms.size() - 1);
-        }
-        return popularFilms;
+    public List<Film> getAllFilms() {
+        return filmStorage.getAllFilms();
+    }
+
+    public Film updateFilm(Film film) {
+        return filmStorage.updateFilm(film);
     }
 
     private void checkIfFilmExists(Integer filmId) {
