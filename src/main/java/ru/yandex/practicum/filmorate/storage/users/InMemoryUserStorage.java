@@ -1,3 +1,4 @@
+/*
 package ru.yandex.practicum.filmorate.storage.users;
 
 import lombok.Getter;
@@ -148,3 +149,5 @@ public class InMemoryUserStorage implements UserStorage {
         }
     }
 }
+
+ */

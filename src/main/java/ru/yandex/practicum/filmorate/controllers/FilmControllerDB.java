@@ -1,39 +1,38 @@
-/*
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exceptions.DataBaseNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.FilmServiceDB;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
 @RequestMapping("/films")
-public class FilmController {
+public class FilmControllerDB {
 
-    private final FilmService filmService;
+    private final FilmServiceDB filmService;
 
     private final String mostPopularFilmsNumber = "10";
 
     @Autowired
-    public FilmController(FilmService filmService) {
+    public FilmControllerDB(FilmServiceDB filmService) {
         this.filmService = filmService;
     }
 
-    @PostMapping
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Film addFilm(@RequestBody Film film) {
-        return filmService.addFilm(film);
-    }
-
-    @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Film updateFilm(@RequestBody Film film) {
-        return filmService.updateFilm(film);
+    public Optional<Film> getFilm(@PathVariable("id") String id) {
+       Optional<Film> film = filmService.getFilm(id);
+       if (film.isEmpty()) {
+           throw new DataBaseNotFoundException();
+       }
+        return film;
     }
 
     @GetMapping
@@ -42,10 +41,22 @@ public class FilmController {
         return filmService.getAllFilms();
     }
 
-    @GetMapping("/{id}")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Film getFilm(@PathVariable("id") String id) {
-        return filmService.getFilm(id);
+    public Film addFilm(@RequestBody Film film) {
+                return filmService.addFilm(film);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public boolean deleteFilm(@PathVariable("id") String id) {
+        return filmService.deleteFilm(id);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Film updateFilm(@RequestBody Film film) {
+        return filmService.updateFilm(film);
     }
 
     @PutMapping("/{id}/like/{userId}")
@@ -68,4 +79,5 @@ public class FilmController {
         return filmService.getPopularFilms(count);
     }
 
-}*/
+
+}

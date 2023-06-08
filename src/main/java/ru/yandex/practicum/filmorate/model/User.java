@@ -1,3 +1,4 @@
+
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.EqualsAndHashCode;
@@ -12,12 +13,12 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 public class User {
-    @Getter
-    @Setter
-    private static int UserIdCounter = 1;
+
+   // private static int UserIdCounter = 1; //в итоге наверное убрать
 
     @Getter
-    private final int id;
+    @Setter
+    private int id;
 
     @Getter
     @Setter
@@ -38,13 +39,14 @@ public class User {
     private Set<Integer> friends;
 
     public User(String email, String login, String name, LocalDate birthday) {
+      //  this.id = id;
         this.email = email;
         this.login = login;
         this.name = name;
         this.birthday = birthday;
         this.friends = new HashSet<>();
 
-        this.id = UserIdCounter;
-        UserIdCounter++;
+        //this.id = UserIdCounter; //тоже наверное убрать в конце эту функцию забирает БД
+        //UserIdCounter++; //тоже наверное убрать в конце эту функцию забирает БД
     }
 }

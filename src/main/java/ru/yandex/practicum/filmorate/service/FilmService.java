@@ -1,3 +1,5 @@
+/*
+
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.Getter;
@@ -73,3 +75,5 @@ public class FilmService {
         }
     }
 }
+
+ */

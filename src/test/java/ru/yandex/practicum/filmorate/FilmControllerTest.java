@@ -1,5 +1,6 @@
-package ru.yandex.practicum.filmorate;
 
+package ru.yandex.practicum.filmorate;
+/*
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.exceptions.InvalidDescriptionException;
@@ -7,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.InvalidFilmDurationException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmNameException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidFilmReleaseDateException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.storage.films.InMemoryFilmStorage;
 
 import java.nio.charset.Charset;
@@ -23,7 +25,7 @@ public class FilmControllerTest {
     Film testFilm = new Film("Terminator",
             "A human-like cyborg came from the future to nowadays to kill Sarah Connor",
             LocalDate.of(2020, 12, 12),
-            120);
+            120, "PG-1",new MPA(1,"PG-1"));
     int testId = testFilm.getId();
 
     @Test
@@ -81,4 +83,4 @@ public class FilmControllerTest {
         fController.addFilm(testFilm);
     }
 
-}
+} */

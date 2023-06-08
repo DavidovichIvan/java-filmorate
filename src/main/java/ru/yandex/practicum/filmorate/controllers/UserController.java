@@ -1,3 +1,4 @@
+/*
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/usersOld")
 public class UserController {
 
     private final UserService userService;
@@ -45,29 +46,30 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @PutMapping("{id}/friends/{friendId}")
+    @PutMapping("{id}/friendsOld/{friendId}")
     @ResponseStatus(HttpStatus.OK)
     public String addFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
         userService.addFriend(id, friendId);
         return "Друг добавлен";
     }
 
-    @DeleteMapping("{id}/friends/{friendId}")
+    @DeleteMapping("{id}/friendsOld/{friendId}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
         userService.deleteFriend(id, friendId);
         return "Друг удален";
     }
 
-    @GetMapping("{id}/friends")
+    @GetMapping("{id}/friendsOld")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getFriends(@PathVariable("id") String id) {
         return userService.getFriends(id);
     }
 
-    @GetMapping("{id}/friends/common/{otherId}")
+    @GetMapping("{id}/friendsOld/common/{otherId}")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getCommonFriends(@PathVariable("id") String id, @PathVariable("otherId") String otherId) {
         return userService.getCommonFriends(id, otherId);
     }
 }
+*/
