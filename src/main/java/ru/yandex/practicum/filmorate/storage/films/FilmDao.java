@@ -36,10 +36,10 @@ public class FilmDao implements FilmStorage {
         List<Genre> genres = new ArrayList<>();
         SqlRowSet genreRows = jdbcTemplate.queryForRowSet("select * from Genre ORDER BY GENRE_ID");
         while (genreRows.next()) {
-            genres.add(new Genre
-                    (genreRows.
-                            getInt("Genre_ID"),
-                            genreRows.getString("Genre_name")));
+            genres.add(new Genre(
+                    genreRows
+                            .getInt("Genre_ID"),
+                    genreRows.getString("Genre_name")));
         }
         return genres;
     }
@@ -61,10 +61,9 @@ public class FilmDao implements FilmStorage {
         List<MPA> mpa = new ArrayList<>();
         SqlRowSet mpaRows = jdbcTemplate.queryForRowSet("select * from Rating ORDER BY RATING_ID");
         while (mpaRows.next()) {
-            mpa.add(new MPA
-                    (mpaRows.
-                            getInt("Rating_ID"),
-                            mpaRows.getString("Rating_name")));
+            mpa.add(new MPA(mpaRows
+                    .getInt("Rating_ID"),
+                    mpaRows.getString("Rating_name")));
         }
         return mpa;
     }
@@ -119,13 +118,13 @@ public class FilmDao implements FilmStorage {
                     film.getMpa().getId(),
                     film.getRate());
 
-            SqlRowSet ratingRows = jdbcTemplate.
-                    queryForRowSet("select rating_name from Rating where rating_id = ?", film.getMpa().getId());
+            SqlRowSet ratingRows = jdbcTemplate
+                    .queryForRowSet("select rating_name from Rating where rating_id = ?", film.getMpa().getId());
             if (ratingRows.next()) {
                 film.getMpa().setName(ratingRows.getString("rating_name"));
             }
-            SqlRowSet filmId = jdbcTemplate.
-                    queryForRowSet("select Film_id from Films where title = ? AND release_date = ?",
+            SqlRowSet filmId = jdbcTemplate
+                    .queryForRowSet("select Film_id from Films where title = ? AND release_date = ?",
                             film.getName(),
                             film.getReleaseDate());
 
@@ -376,9 +375,9 @@ public class FilmDao implements FilmStorage {
             film.setId(id);
             film.setGenres(getGenresForFilm(id));
             film.setLikes(getLikesForFilm(id));
-            log.info("Найден фильм: id {}, название -  {}"
-                    , filmRows.getString("Film_id")
-                    , filmRows.getString("title"));
+            log.info("Найден фильм: id {}, название -  {}",
+                    filmRows.getString("Film_id"),
+                    filmRows.getString("title"));
 
             return Optional.of(film);
         } else {
