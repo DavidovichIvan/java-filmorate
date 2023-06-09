@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.users.UserStorageDB;
+import ru.yandex.practicum.filmorate.storage.users.UserStorage;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +17,10 @@ import java.util.Optional;
 @Service
 public class UserServiceDB {
 
-    private final UserStorageDB userStorage;
+    private final UserStorage userStorage;
 
     @Autowired
-    public UserServiceDB(UserStorageDB userStorage) {
+    public UserServiceDB(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
@@ -43,9 +43,9 @@ public class UserServiceDB {
     }
 
     public boolean deleteUser(String id) {
-       Integer userId = Integer.valueOf(id);
+        int userId = Integer.parseInt(id);
         return userStorage.deleteUser(userId);
-           }
+    }
 
     public void deleteFriend(String id, String friendId) {
         int userId = Integer.parseInt(id);
@@ -68,5 +68,4 @@ public class UserServiceDB {
     public User updateUser(User user) {
         return userStorage.updateUser(user);
     }
-
 }

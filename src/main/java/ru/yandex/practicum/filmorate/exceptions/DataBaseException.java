@@ -12,12 +12,10 @@ public class DataBaseException extends RuntimeException {
     private final String message;
 
     public DataBaseException() {
-
         this.message = "Ошибка работы с базой данных.";
     }
 
     public DataBaseException(String message) {
-
         this.message = message;
     }
 

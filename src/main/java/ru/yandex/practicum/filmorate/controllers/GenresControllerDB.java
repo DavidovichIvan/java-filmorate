@@ -28,10 +28,10 @@ public class GenresControllerDB {
         return filmService.getAllGenres();
     }
 
-  @GetMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public Optional<Genre> getGenre(@PathVariable("id") String id) {
-       return filmService.getGenre(id);
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Genre> getGenre(@PathVariable("id") String id) {
+        return filmService.getGenre(id);
     }
 
 }

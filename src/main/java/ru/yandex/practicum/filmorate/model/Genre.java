@@ -1,18 +1,14 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
-
-@Data //геттер сеттер конструктор икуалс и хэшкод в одном флаконе
+@Data
 public class Genre {
 
     @NonNull
-    @Getter
-    @Setter
-    private int id; //убрал что файнал
+    private int id;
+
     private String name;
 
     public Genre(@NonNull int id, String name) {

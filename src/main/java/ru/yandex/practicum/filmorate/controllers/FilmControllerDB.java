@@ -28,10 +28,10 @@ public class FilmControllerDB {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Film> getFilm(@PathVariable("id") String id) {
-       Optional<Film> film = filmService.getFilm(id);
-       if (film.isEmpty()) {
-           throw new DataBaseNotFoundException();
-       }
+        Optional<Film> film = filmService.getFilm(id);
+        if (film.isEmpty()) {
+            throw new DataBaseNotFoundException();
+        }
         return film;
     }
 
@@ -44,7 +44,7 @@ public class FilmControllerDB {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Film addFilm(@RequestBody Film film) {
-                return filmService.addFilm(film);
+        return filmService.addFilm(film);
     }
 
     @DeleteMapping("/{id}")
@@ -78,6 +78,4 @@ public class FilmControllerDB {
     public List<Film> getPopularFilms(@RequestParam(defaultValue = mostPopularFilmsNumber) String count) {
         return filmService.getPopularFilms(count);
     }
-
-
 }

@@ -11,8 +11,8 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.films.FilmStorageDB;
-import ru.yandex.practicum.filmorate.storage.users.UserStorageDB;
+import ru.yandex.practicum.filmorate.storage.films.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.users.UserStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,11 +25,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Sql({"/dataForTests.sql"})
 class FilmoRateApplicationTests {
-    private final UserStorageDB userStorage;
+    private final UserStorage userStorage;
 
-    private final FilmStorageDB filmStorage;
+    private final FilmStorage filmStorage;
     private List<User> testListUsers = new ArrayList<>();
 
     private List<Film> testListFilms = new ArrayList<>();
@@ -70,7 +69,8 @@ class FilmoRateApplicationTests {
         testListUsers = userStorage.getAllUsers();
         assertThat(testListUsers.size() == numberOfUsersInTestDB).isTrue();
 
-        testUser = new User("Test@mail.my", "TTTT", "Timmy", LocalDate.of(1984, 12, 12));
+        testUser = new User("Test@mail.my", "TTTT", "Timmy",
+                LocalDate.of(1984, 12, 12));
         userStorage.addUser(testUser);
         testListUsers = userStorage.getAllUsers();
         assertThat(testListUsers.size() == numberOfUsersInTestDB + 1).isTrue();
@@ -86,7 +86,11 @@ class FilmoRateApplicationTests {
         testUser = userStorage.getUser(1).get();
         assertThat(testUser.getName().equals("Tom")).isTrue();
 
-        User userForUpd = new User("Upd@mail.my", "Upd", "Updater", LocalDate.of(1984, 12, 12));
+        User userForUpd =
+                new User("Upd@mail.my",
+                        "Upd",
+                        "Updater",
+                        LocalDate.of(1984, 12, 12));
         userForUpd.setId(1);
 
         User oldUser = testUser;
@@ -95,7 +99,6 @@ class FilmoRateApplicationTests {
         assertThat(userStorage.getUser(1).get().getName().equals("Tom")).isFalse();
         assertThat(userStorage.getUser(1).get().getEmail().equals("Upd@mail.my")
                 && userStorage.getUser(1).get().getName().equals("Updater")).isTrue();
-
         userStorage.updateUser(oldUser);
     }
 
@@ -138,7 +141,12 @@ class FilmoRateApplicationTests {
     @Test
     public void testAddFilm() {
 
-        testFilm = new Film("TestFilm", "TestFilm", LocalDate.of(1999, 12, 12), 120, new MPA(1, "Комедия"));
+        testFilm =
+                new Film("TestFilm",
+                        "TestFilm",
+                        LocalDate.of(1999, 12, 12),
+                        120, new MPA(1,
+                        "Комедия"));
         filmStorage.addFilm(testFilm);
         testListFilms = filmStorage.getAllFilms();
 
@@ -183,7 +191,11 @@ class FilmoRateApplicationTests {
         Film oldFilm = testFilm;
         assertThat(testFilm.getName()).isEqualTo("Terminator");
 
-        Film filmForUpd = new Film("Rainbow", "UpdatedFilm", LocalDate.of(1999, 12, 12), 120, new MPA(1, "Комедия"));
+        Film filmForUpd =
+                new Film("Rainbow",
+                        "UpdatedFilm",
+                        LocalDate.of(1999, 12, 12),
+                        120, new MPA(1, "Комедия"));
         filmForUpd.setId(1);
 
         filmStorage.updateFilm(filmForUpd);
