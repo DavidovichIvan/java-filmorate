@@ -1,14 +1,14 @@
 package ru.yandex.practicum.filmorate;
 
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.yandex.practicum.filmorate.controllers.UserController;
 import ru.yandex.practicum.filmorate.exceptions.InvalidBirthdayException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidEmailException;
 import ru.yandex.practicum.filmorate.exceptions.InvalidLoginException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.users.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.users.UserStorage;
 
 import java.time.LocalDate;
 
@@ -17,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class UserControllerTest {
+    //@Autowired
+    UserStorage uController = new InMemoryUserStorage();
 
-    UserController uController = new UserController();
     User testUser = new User("Dogman@ttt.tt",
             "BigDog",
             "Dogman",
@@ -62,7 +63,6 @@ public class UserControllerTest {
         uController.addUser(testUser);
     }
 
-
     @org.junit.Test(expected = InvalidLoginException.class)
     public void loginShouldNotBeEmptyTest() {
         testUser.setLogin("");
@@ -79,10 +79,4 @@ public class UserControllerTest {
     public static void cleanUp() {
         User.setUserIdCounter(1);
     }
-
 }
-
-
-
-
-

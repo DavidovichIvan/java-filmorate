@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-public class StartPage {
+public class HomeEndpoint {
 
     @GetMapping("/home")
     public String home() {
-        final String defaultMessage = "Добро пожаловать, в приложение Filmorate!";
+        final String defaultMessage = "приложение Filmorate";
         log.info("Запрос к эндпоинту /home");
 
         return defaultMessage;
     }
-
 }
