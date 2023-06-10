@@ -1,17 +1,22 @@
+
 package ru.yandex.practicum.filmorate.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.time.LocalDate;
-
 @Getter
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidBirthdayException extends RuntimeException {
+public class DataBaseException extends RuntimeException {
+
     private final String message;
 
-    public InvalidBirthdayException(LocalDate date) {
-        this.message = "Дата рождения не может быть в будущем -" + date;
+    public DataBaseException() {
+        this.message = "Ошибка работы с базой данных.";
     }
+
+    public DataBaseException(String message) {
+        this.message = message;
+    }
+
 }
