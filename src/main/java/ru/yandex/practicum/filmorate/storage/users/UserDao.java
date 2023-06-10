@@ -57,7 +57,7 @@ public class UserDao implements UserStorage {
         try {
             SqlRowSet friendsId = jdbcTemplate.queryForRowSet("select * from friends where user_id = ?", id);
             while (friendsId.next()) {
-                Integer friendId = Integer.valueOf(friendsId.getString("friend_id"));
+                Integer friendId = friendsId.getInt("friend_id");
                 Optional<User> optFriend = getSingleUserRecord(friendId);
                 allFriends.add(optFriend.get());
             }
@@ -68,15 +68,27 @@ public class UserDao implements UserStorage {
     }
 
     @Override
-    public Map<Integer, User> getUsersList() {
-        List<User> allUsers = getAllUsers();
-        Map<Integer, User> usersMap = new HashMap<>();
-        for (User u : getAllUsers()) {
-            usersMap.put(u.getId(), u);
-        }
-        return usersMap;
-    }
+    public List<User> getCommonFriends(Integer firstUserId, Integer secondUserId) {
+        List<User> commonFriendsList = new ArrayList<>();
 
+        try {
+            SqlRowSet commonFriends = jdbcTemplate.queryForRowSet("SELECT f1.FRIEND_ID \n" +
+                    "FROM friends f1 INNER JOIN friends f2\n" +
+                    "  ON f1.friend_id = f2.friend_id\n" +
+                    "WHERE f1.user_id = ?\n" +
+                    "  AND f2.user_id = ?", firstUserId, secondUserId);
+            while (commonFriends.next()) {
+                int friendId = commonFriends.getInt("friend_id");
+                commonFriendsList.add(getUser(friendId).get());
+            }
+        } catch (RuntimeException r) {
+            throw new DataBaseException();
+
+        }
+        return commonFriendsList;
+
+    }
+/*
     @Override
     public List<User> getCommonFriends(Integer firstUserId, Integer secondUserId) {
         List<User> commonFriendsList = new ArrayList<>();
@@ -89,7 +101,8 @@ public class UserDao implements UserStorage {
             }
         }
         return commonFriendsList;
-    }
+    }*/
+
 
     @Override
     public boolean deleteUser(int userId) {

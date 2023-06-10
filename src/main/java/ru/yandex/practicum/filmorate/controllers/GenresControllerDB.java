@@ -1,7 +1,8 @@
 package ru.yandex.practicum.filmorate.controllers;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Genre;
@@ -13,14 +14,11 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/genres")
+@RequiredArgsConstructor
 public class GenresControllerDB {
 
+    @NonNull
     private final FilmServiceDB filmService;
-
-    @Autowired
-    public GenresControllerDB(FilmServiceDB filmService) {
-        this.filmService = filmService;
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

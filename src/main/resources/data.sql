@@ -1,5 +1,6 @@
 
 --исходные данные для прохождения автотестов
+
 insert into Rating (rating_name) values ('G');
 insert into Rating (rating_name) values ('PG');
 insert into Rating (rating_name) values ('PG-13');

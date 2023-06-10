@@ -30,7 +30,7 @@ public class MpaControllerDB {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<MPA> getMPA(@PathVariable("id") String id) {
+    public Optional<MPA> getMPA(@PathVariable("id") Integer id) {
         return filmService.getMPA(id);
     }
 

@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserServiceDB;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -25,11 +24,11 @@ public class UserControllerDB {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<User> getUser(@PathVariable("id") String id) {
-        Optional<User> user = userService.getUser(id);
-        if (user.isEmpty()) {
-            throw new DataBaseNotFoundException();
-        }
+    public User getUser(@PathVariable("id") Integer id) {
+        User user = userService
+                .getUser(id)
+                .orElseThrow(() -> new DataBaseNotFoundException("Фильм не найден"));
+
         return user;
     }
 
@@ -41,32 +40,32 @@ public class UserControllerDB {
 
     @GetMapping("{id}/friends")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getFriends(@PathVariable("id") String id) {
+    public List<User> getFriends(@PathVariable("id") Integer id) {
         return userService.getFriends(id);
     }
 
     @GetMapping("{id}/friends/common/{otherId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getCommonFriends(@PathVariable("id") String id, @PathVariable("otherId") String otherId) {
+    public List<User> getCommonFriends(@PathVariable("id") Integer id, @PathVariable("otherId") Integer otherId) {
         return userService.getCommonFriends(id, otherId);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public boolean deleteUser(@PathVariable("id") String id) {
+    public boolean deleteUser(@PathVariable("id") Integer id) {
         return userService.deleteUser(id);
     }
 
     @DeleteMapping("{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
+    public String deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         userService.deleteFriend(id, friendId);
         return "Друг удален";
     }
 
     @PutMapping("{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public String addFriend(@PathVariable("id") String id, @PathVariable("friendId") String friendId) {
+    public String addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         userService.addFriend(id, friendId);
         return "Друг добавлен";
     }

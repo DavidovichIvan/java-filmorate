@@ -24,41 +24,32 @@ public class UserServiceDB {
         this.userStorage = userStorage;
     }
 
-    public Optional<User> getUser(String id) {
-        return userStorage.getUser(Integer.valueOf(id));
+    public Optional<User> getUser(int id) {
+        return userStorage.getUser(id);
     }
 
     public List<User> getAllUsers() {
         return userStorage.getAllUsers();
     }
 
-    public List<User> getFriends(String id) {
-        return userStorage.getFriends(Integer.valueOf(id));
+    public List<User> getFriends(int id) {
+        return userStorage.getFriends(id);
     }
 
-    public List<User> getCommonFriends(String id, String otherId) {
-        int firstUserId = Integer.parseInt(id);
-        int secondUserId = Integer.parseInt(otherId);
-        return userStorage.getCommonFriends(firstUserId, secondUserId);
+    public List<User> getCommonFriends(int id, int otherId) {
+        return userStorage.getCommonFriends(id, otherId);
     }
 
-    public boolean deleteUser(String id) {
-        int userId = Integer.parseInt(id);
-        return userStorage.deleteUser(userId);
+    public boolean deleteUser(int id) {
+        return userStorage.deleteUser(id);
     }
 
-    public void deleteFriend(String id, String friendId) {
-        int userId = Integer.parseInt(id);
-        int friendToDeleteId = Integer.parseInt(friendId);
-
-        userStorage.deleteFriend(userId, friendToDeleteId);
+    public void deleteFriend(int userId, int friendId) {
+        userStorage.deleteFriend(userId, friendId);
     }
 
-    public void addFriend(String id, String friendId) {
-        int userId = Integer.parseInt(id);
-        int newFriendId = Integer.parseInt(friendId);
-
-        userStorage.addFriend(userId, newFriendId);
+    public void addFriend(int userId, int friendId) {
+        userStorage.addFriend(userId, friendId);
     }
 
     public User addUser(User user) {

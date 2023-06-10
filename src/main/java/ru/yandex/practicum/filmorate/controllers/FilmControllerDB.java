@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmServiceDB;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -27,11 +26,11 @@ public class FilmControllerDB {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Film> getFilm(@PathVariable("id") String id) {
-        Optional<Film> film = filmService.getFilm(id);
-        if (film.isEmpty()) {
-            throw new DataBaseNotFoundException();
-        }
+    public Film getFilm(@PathVariable("id") Integer id) {
+        Film film = filmService
+                .getFilm(id)
+                .orElseThrow(() -> new DataBaseNotFoundException("фильм не найден"));
+
         return film;
     }
 
@@ -49,7 +48,7 @@ public class FilmControllerDB {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public boolean deleteFilm(@PathVariable("id") String id) {
+    public boolean deleteFilm(@PathVariable("id") Integer id) {
         return filmService.deleteFilm(id);
     }
 
@@ -61,21 +60,21 @@ public class FilmControllerDB {
 
     @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public String likeFilm(@PathVariable("id") String id, @PathVariable("userId") String userId) {
+    public String likeFilm(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
         filmService.putLike(id, userId);
         return "Лайк поставлен";
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteLike(@PathVariable("id") String id, @PathVariable("userId") String userId) {
+    public String deleteLike(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
         filmService.deleteLike(id, userId);
         return "Лайк удален";
     }
 
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public List<Film> getPopularFilms(@RequestParam(defaultValue = mostPopularFilmsNumber) String count) {
+    public List<Film> getPopularFilms(@RequestParam(defaultValue = mostPopularFilmsNumber) Integer count) {
         return filmService.getPopularFilms(count);
     }
 }

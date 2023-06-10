@@ -27,8 +27,7 @@ public class FilmServiceDB {
         this.userService = userService;
     }
 
-    public Optional<Film> getFilm(String id) {
-        int requestId = Integer.parseInt(id);
+    public Optional<Film> getFilm(int requestId) {
         return filmStorage.getFilm(requestId);
     }
 
@@ -45,8 +44,7 @@ public class FilmServiceDB {
         return filmStorage.getAllMPA();
     }
 
-    public Optional<MPA> getMPA(String id) {
-        int mpaId = Integer.parseInt(id);
+    public Optional<MPA> getMPA(int mpaId) {
         return filmStorage.getMPA(mpaId);
     }
 
@@ -58,8 +56,7 @@ public class FilmServiceDB {
         return filmStorage.addFilm(film);
     }
 
-    public boolean deleteFilm(String id) {
-        Integer filmId = Integer.valueOf(id);
+    public boolean deleteFilm(int filmId) {
         return filmStorage.deleteFilm(filmId);
     }
 
@@ -67,22 +64,15 @@ public class FilmServiceDB {
         return filmStorage.updateFilm(film);
     }
 
-    public void putLike(String filmId, String userId) {
-        int filmToPutLikeId = Integer.parseInt(filmId);
-        int userWhoPutLikeId = Integer.parseInt(userId);
-
-        filmStorage.putLike(filmToPutLikeId, userWhoPutLikeId);
+    public void putLike(int filmId, int userId) {
+        filmStorage.putLike(filmId, userId);
     }
 
-    public void deleteLike(String filmId, String userId) {
-        int filmToDeleteLikeId = Integer.parseInt(filmId);
-        int userWhoDeleteLikeId = Integer.parseInt(userId);
-
-        filmStorage.deleteLike(filmToDeleteLikeId, userWhoDeleteLikeId);
+    public void deleteLike(int filmId, int userId) {
+        filmStorage.deleteLike(filmId, userId);
     }
 
-    public List<Film> getPopularFilms(String count) {
-        int numberOfFilms = Integer.parseInt(count);
-        return filmStorage.getPopularFilms(numberOfFilms);
+    public List<Film> getPopularFilms(int count) {
+        return filmStorage.getPopularFilms(count);
     }
 }
